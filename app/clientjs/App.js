@@ -1,6 +1,13 @@
 const WSFEClient = require('./WSFEClient')
+const ToggleSwitch = require('./ToggleSwitch')
 
 module.exports = () => {
-	var wsfe = new WSFEClient()
-	wsfe.connect()
+	var ts = new ToggleSwitch()
+	
+	window.addEventListener('DOMContentLoaded',()=>{
+		document.body.appendChild(ts.render())
+
+		var wsfe = new WSFEClient()
+		wsfe.connect()
+	})
 }

@@ -68,12 +68,12 @@ class WSFEClient extends Evented {
 	}
 
 	_onClose() {
-		console.log('WSFE: onClose')
+		console.debug('WSFE: onClose')
 		this.state = 'disconnected'
 	}
 
 	_onError() {
-		console.log('WSFE: onError')
+		console.error('WSFE: onError')
 	}
 
 }

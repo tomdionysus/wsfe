@@ -1,0 +1,29 @@
+.toggle-switch {
+	display: inline-block;
+	background-color: #AAA;
+	border: solid 1px #888;
+	border-radius: 2px;
+	color: #FFF;
+	vertical-align: middle;
+	padding: 4px;
+
+	.active {
+		display: inline-block;
+		height: 100%;
+		width: 48px;
+		background-color: #00CC00;
+		text-align: center;
+		padding: 5px;
+		margin: 5px;
+	}
+
+	.inactive {
+		display: inline-block;
+		height: 100%;
+		width: 48px;
+		background-color: #660000;
+		text-align: center;
+		padding: 5px;
+		margin: 5px;
+	}
+}
