@@ -10,6 +10,7 @@ class WSFEClient extends Evented {
 		this.wsEndpoint = options.wsEndpoint || this.wsHost + this.wsPath
 		this.socket = null
 		this.id = options.id || uuidV4()
+		this.state = 'disconnected'
 
 		this.addEvents(['connect','close','error','message'])
 	}
@@ -34,18 +35,40 @@ class WSFEClient extends Evented {
 
 	_onOpen() {
 		console.log('WSFE: onOpen')
+		this.state = 'handshake'
 		this.send({
 			c:'id',
 			p:{ id: this.id },
 		})
 	}
 
-	_onMessage() {
-		console.log('WSFE: onMessage')
+	_onMessage(message) {
+		console.log('WSFE: onMessage', message.data)
+		var pkt
+		try {
+			pkt = JSON.parse(message.data)
+		} catch (e) {
+			console.error('WSFE: onMessage: JSON Parse Failed',e)
+			return
+		}
+		if(!pkt.c) return console.error('WSFE: onMessage: No Command')
+		this._process(pkt.c, pkt.p)
+	}
+
+	_process(cmd, params) {
+		switch(cmd) {
+		case 'idack':
+			console.debug('WSFE: _process: IDACK', params.id)
+			this.state = 'connected'
+			break
+		default: 
+			console.error('WSFE: _process: Unknown Command', cmd)
+		}
 	}
 
 	_onClose() {
 		console.log('WSFE: onClose')
+		this.state = 'disconnected'
 	}
 
 	_onError() {
