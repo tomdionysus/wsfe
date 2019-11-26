@@ -1,5 +1,9 @@
-class WSFEClient {
+const Evented = require('./Evented')
+
+class WSFEClient extends Evented {
 	constructor(options = {}) {
+		super(options)
+		
 		this.wsHost = options.wsHost || (window.location.protocol=='http:' ? 'ws' : 'wss')+'://'+window.location.hostname+(window.location.port == 80 ? '' : ':'+window.location.port)
 		this.wsPath = options.wsPath || '/ws'
 		this.wsEndpoint = options.wsEndpoint || this.wsHost + this.wsPath
@@ -9,10 +13,10 @@ class WSFEClient {
 	connect() {
 		console.log('WSFE: connect')
 		this.socket = new WebSocket(this.wsEndpoint, 'wsfev1')
-		this.onopen = this.onOpen.bind(this)
-		this.onmessage = this.onMessage.bind(this)
-		this.onclose = this.onClose.bind(this)
-		this.onerror = this.onError.bind(this)
+		this.onopen = this._onOpen.bind(this)
+		this.onmessage = this._onMessage.bind(this)
+		this.onclose = this._onClose.bind(this)
+		this.onerror = this._onError.bind(this)
 	}
 
 	close() {
@@ -20,19 +24,19 @@ class WSFEClient {
 		this.socket.close()
 	}
 
-	onOpen() {
+	_onOpen() {
 		console.log('WSFE: onOpen')
 	}
 
-	onMessage() {
+	_onMessage() {
 		console.log('WSFE: onMessage')
 	}
 
-	onClose() {
+	_onClose() {
 		console.log('WSFE: onClose')
 	}
 
-	onError() {
+	_onError() {
 		console.log('WSFE: onError')
 	}
 

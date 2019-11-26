@@ -1,4 +1,4 @@
-const WSFEClient = require('WSFEClient')
+const WSFEClient = require('./WSFEClient')
 
 module.exports = () => {
 	var wsfe = new WSFEClient()
