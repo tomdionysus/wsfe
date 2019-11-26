@@ -25,6 +25,7 @@
     "handlebars": "^4.5.3",
     "node-sass": "^4.13.0",
     "sprintf-js": "^1.1.2",
+    "uglifyify": "^5.0.2",
     "underscore": "^1.9.1",
     "uuid-v4": "^0.1.0"
   }
