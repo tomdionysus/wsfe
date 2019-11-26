@@ -63,7 +63,6 @@ class WSFEClient extends Evented {
 			break
 		default: 
 			this.trigger('command', cmd, params)
-			// console.error('WSFE: _process: Unknown Command', cmd)
 		}
 	}
 
