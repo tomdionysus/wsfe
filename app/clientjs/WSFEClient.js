@@ -16,7 +16,7 @@ class WSFEClient extends Evented {
 	}
 
 	connect() {
-		console.log('WSFE: connect')
+		console.debug('WSFE: connect')
 		this.socket = new WebSocket(this.wsEndpoint, 'wsfev1')
 		this.socket.onopen = this._onOpen.bind(this)
 		this.socket.onmessage = this._onMessage.bind(this)
@@ -25,7 +25,7 @@ class WSFEClient extends Evented {
 	}
 
 	close() {
-		console.log('WSFE: close')
+		console.debug('WSFE: close')
 		this.socket.close()
 	}
 
@@ -34,7 +34,7 @@ class WSFEClient extends Evented {
 	}
 
 	_onOpen() {
-		console.log('WSFE: onOpen')
+		console.debug('WSFE: onOpen')
 		this.state = 'handshake'
 		this.send({
 			c:'id',
@@ -43,7 +43,7 @@ class WSFEClient extends Evented {
 	}
 
 	_onMessage(message) {
-		console.log('WSFE: onMessage', message.data)
+		console.debug('WSFE: onMessage', message.data)
 		var pkt
 		try {
 			pkt = JSON.parse(message.data)
@@ -56,6 +56,7 @@ class WSFEClient extends Evented {
 	}
 
 	_process(cmd, params) {
+		console.debug('WSFE: _process', cmd, params)
 		switch(cmd) {
 		case 'idack':
 			console.debug('WSFE: _process: IDACK', params.id)
