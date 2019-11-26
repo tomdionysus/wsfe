@@ -9,5 +9,15 @@ module.exports = () => {
 
 		var wsfe = new WSFEClient()
 		wsfe.connect()
+
+		ts.addEventListener('change', () => {
+			wsfe.send('toggle-demo-switch',{ state: ts.state })
+		})
+
+		wsfe.addEventListener('command',(cmd, params) => {
+			if(cmd=='toggle-demo-switch') {
+				ts.setState(params.state)
+			}
+		})
 	})
 }

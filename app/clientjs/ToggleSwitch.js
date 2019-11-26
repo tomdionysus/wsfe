@@ -27,24 +27,24 @@ class ToggleSwitch extends Evented {
 		this.element.appendChild(this.elementOff)
 		this.element.appendChild(this.elementOn)
 
-		this.elementOn.addEventListener('click',()=>{ this.set(true) })
-		this.elementOff.addEventListener('click',()=>{ this.set(false) })
+		this.elementOn.addEventListener('click',()=>{ this.setState(true) })
+		this.elementOff.addEventListener('click',()=>{ this.setState(false) })
 
-		this.set(this.state)
+		this.setState(this.state)
 
 		return this.element
 	}
 
-	set(onOff) {
+	setState(onOff) {
 		this.elementOn.classList.toggle(this.cssClassActive, onOff)
 		this.elementOn.classList.toggle(this.cssClassInactive, !onOff)
 		this.elementOff.classList.toggle(this.cssClassActive, !onOff)
 		this.elementOff.classList.toggle(this.cssClassInactive, onOff)
 		this.state = onOff
 
-		if(this.state!=this.lastState) {
+		if(this.state!==this.lastState) {
 			this.trigger('change')
-			this.state = this.lastState
+			this.lastState = this.state
 		}
 	}
 }

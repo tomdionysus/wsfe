@@ -12,7 +12,7 @@ class WSFEClient extends Evented {
 		this.id = options.id || uuidV4()
 		this.state = 'disconnected'
 
-		this.addEvents(['connect','close','error','message'])
+		this.addEvents(['connect','close','error','message','command'])
 	}
 
 	connect() {
@@ -27,23 +27,22 @@ class WSFEClient extends Evented {
 	close() {
 		console.debug('WSFE: close')
 		this.socket.close()
+		this.trigger('close')
 	}
 
-	send(packet) {
-		this.socket.send(JSON.stringify(packet))
+	send(cmd, params) {
+		this.socket.send(JSON.stringify({c:cmd, p:params}))
 	}
 
 	_onOpen() {
 		console.debug('WSFE: onOpen')
 		this.state = 'handshake'
-		this.send({
-			c:'id',
-			p:{ id: this.id },
-		})
+		this.send('id', { id: this.id } )
 	}
 
 	_onMessage(message) {
 		console.debug('WSFE: onMessage', message.data)
+		this.trigger('message',message.data)
 		var pkt
 		try {
 			pkt = JSON.parse(message.data)
@@ -63,17 +62,20 @@ class WSFEClient extends Evented {
 			this.state = 'connected'
 			break
 		default: 
-			console.error('WSFE: _process: Unknown Command', cmd)
+			this.trigger('command', cmd, params)
+			// console.error('WSFE: _process: Unknown Command', cmd)
 		}
 	}
 
 	_onClose() {
 		console.debug('WSFE: onClose')
 		this.state = 'disconnected'
+		this.trigger('close')
 	}
 
 	_onError() {
 		console.error('WSFE: onError')
+		this.trigger('error')
 	}
 
 }
