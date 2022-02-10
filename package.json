@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "express-ws": "^4.0.0",
     "handlebars": "^4.5.3",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "sprintf-js": "^1.1.2",
     "uglifyify": "^5.0.2",
     "underscore": "^1.9.1",
